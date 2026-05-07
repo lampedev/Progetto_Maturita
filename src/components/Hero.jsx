@@ -86,21 +86,21 @@ export default function Hero() {
                 <div className="absolute -inset-6 bg-gradient-to-tr from-accent/20 to-transparent rounded-[3rem] blur-2xl opacity-60" />
                 <div className="relative bg-zinc-900 rounded-[2.5rem] p-3 shadow-[0_30px_60px_-20px_rgba(0,0,0,0.2)] rotate-[-2deg]">
                   <div className="bg-zinc-800 rounded-[2rem] overflow-hidden aspect-[9/19.5]">
-                    <img src={`/screenshots/${screenshots[0]}`} alt="Dashboard" className="w-full h-full object-cover" loading="eager" />
+                    <img src={`${import.meta.env.BASE_URL}screenshots/${screenshots[0]}`} alt="Dashboard" className="w-full h-full object-cover" loading="eager" />
                   </div>
                 </div>
               </div>
               <div className="phone-float absolute top-0 right-0 w-[160px] md:w-[190px]">
                 <div className="bg-zinc-900 rounded-[2rem] p-2 shadow-[0_20px_40px_-15px_rgba(0,0,0,0.15)] rotate-[8deg]">
                   <div className="bg-zinc-800 rounded-[1.5rem] overflow-hidden aspect-[9/19.5]">
-                    <img src={`/screenshots/${screenshots[1]}`} alt="Workout" className="w-full h-full object-cover" loading="eager" />
+                    <img src={`${import.meta.env.BASE_URL}screenshots/${screenshots[1]}`} alt="Workout" className="w-full h-full object-cover" loading="eager" />
                   </div>
                 </div>
               </div>
               <div className="phone-float absolute bottom-0 left-0 w-[150px] md:w-[180px]">
                 <div className="bg-zinc-900 rounded-[2rem] p-2 shadow-[0_20px_40px_-15px_rgba(0,0,0,0.15)] rotate-[-6deg]">
                   <div className="bg-zinc-800 rounded-[1.5rem] overflow-hidden aspect-[9/19.5]">
-                    <img src={`/screenshots/${screenshots[2]}`} alt="Analytics" className="w-full h-full object-cover" loading="eager" />
+                    <img src={`${import.meta.env.BASE_URL}screenshots/${screenshots[2]}`} alt="Analytics" className="w-full h-full object-cover" loading="eager" />
                   </div>
                 </div>
               </div>

@@ -69,7 +69,7 @@ export default function InterfacciaUI() {
                   <div className="absolute top-4 left-1/2 -translate-x-1/2 w-16 h-1.5 rounded-full bg-zinc-700/80 z-10" />
                   <div className="bg-zinc-800 rounded-[2rem] overflow-hidden aspect-[9/19.5]">
                     <img
-                      src={`/screenshots/${s.src}`}
+                      src={`${import.meta.env.BASE_URL}screenshots/${s.src}`}
                       alt={s.name}
                       className="w-full h-full object-cover"
                       loading="lazy"
