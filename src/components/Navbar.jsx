@@ -11,6 +11,7 @@ const links = [
   { href: '#tech', label: 'Tech' },
   { href: '#iterazioni', label: 'Iterazioni' },
   { href: '#interfaccia', label: 'Interfaccia' },
+  { href: '#ai', label: 'AI' },
   { href: '#apprendimento', label: 'Apprendimento' },
 ];
 

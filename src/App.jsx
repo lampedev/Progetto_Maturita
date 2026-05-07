@@ -9,6 +9,7 @@ import StateManagement from './components/StateManagement';
 import TechStackDeep from './components/TechStackDeep';
 import Iterazioni from './components/Iterazioni';
 import InterfacciaUI from './components/InterfacciaUI';
+import RuoloAI from './components/RuoloAI';
 import KineticMarquee from './components/KineticMarquee';
 import CosaHoImparato from './components/CosaHoImparato';
 import Footer from './components/Footer';
@@ -28,6 +29,7 @@ function App() {
         <TechStackDeep />
         <Iterazioni />
         <InterfacciaUI />
+        <RuoloAI />
         <KineticMarquee />
         <CosaHoImparato />
       </main>
