@@ -1,15 +1,15 @@
 import React, { useRef, useEffect } from "react";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
-import { Barbell, WifiSlash, Cloud } from "@phosphor-icons/react";
+import { WifiSlash, Cloud, Target, ChartBar } from "@phosphor-icons/react";
 
 gsap.registerPlugin(ScrollTrigger);
 
 const cards = [
   {
-    icon: Barbell,
-    title: "Privacy by design",
-    desc: "I dati restano di proprietà dell'utente. Autenticazione OAuth 2.0 e isolamento a livello di riga nel database.",
+    icon: Cloud,
+    title: "Real-Time Synchronization",
+    desc: "Aggiornamento immediato dei dati tra dispositivi grazie alla sincronizzazione cloud in tempo reale.",
   },
   {
     icon: WifiSlash,
@@ -20,6 +20,16 @@ const cards = [
     icon: Cloud,
     title: "Architettura cloud",
     desc: "Nessun server da gestire. Frontend su Netlify (PaaS), backend su Supabase (BaaS).",
+  },
+  {
+    icon: Target,
+    title: "Athlete-Centered Design",
+    desc: "Interfaccia e funzionalità progettate attorno alle esigenze reali di atleti e sportivi avanzati.",
+  },
+  {
+    icon: ChartBar,
+    title: "Advanced Data Tracking",
+    desc: "Monitoraggio dettagliato di allenamenti, progressioni, carichi, volume e storico performance.",
   },
 ];
 
@@ -111,16 +121,16 @@ export default function PerchéQuestoProgetto() {
             </h2>
             <div ref={textRef} className="space-y-5">
               <p className="text-lg md:text-xl text-zinc-600 leading-relaxed max-w-[65ch]">
-                GymLogPWA nasce dalla frustrazione di dover cedere i propri dati
-                a app commerciali. Volevo un tool per tracciare i miei
-                allenamenti senza abbonamenti, senza pubblicità, senza vendere
-                informazioni personali.
+                GymLogPWA nasce dalla frustrazione di dover affidare i propri dati di allenamento a piattaforme commerciali chiuse. Il problema principale non era solo la presenza di abbonamenti o pubblicità, ma soprattutto l&apos;impossibilità di accedere realmente ai dati generati: molte applicazioni non permettono l&apos;esportazione completa delle informazioni, non offrono API pubbliche e impediscono qualsiasi elaborazione personalizzata o analisi avanzata locale.
               </p>
               <p className="text-lg md:text-xl text-zinc-600 leading-relaxed max-w-[65ch]">
-                Quello che è iniziato come uno script personale è diventato
-                un&apos;occasione per esplorare l&apos;architettura moderna del
-                web: PWA, cloud computing, sicurezza informatica e state
-                management.
+                Volevo quindi un tool per tracciare i miei allenamenti senza abbonamenti, senza pubblicità e senza la necessità di cedere informazioni personali a servizi esterni. L&apos;obiettivo era creare una piattaforma realmente controllabile dall&apos;utente, con gestione diretta dei dati, sincronizzazione cloud e un&apos;architettura moderna capace di garantire sicurezza, flessibilità e scalabilità.
+              </p>
+              <p className="text-lg md:text-xl text-zinc-600 leading-relaxed max-w-[65ch]">
+                Quello che inizialmente era nato come un semplice script personale si è progressivamente trasformato in un progetto completo di ingegneria software. Attraverso lo sviluppo della PWA ho approfondito concetti come cloud computing, autenticazione OAuth 2.0, sicurezza informatica, state management e gestione real-time dei dati.
+              </p>
+              <p className="text-lg md:text-xl text-zinc-600 leading-relaxed max-w-[65ch]">
+                Con il tempo l&apos;applicazione ha iniziato a diffondersi anche all&apos;interno della mia palestra, arrivando a essere utilizzata da circa una decina di persone. Questo apre prospettive future molto interessanti: utilizzare i dati raccolti per individuare correlazioni e pattern legati alla performance atletica, come il volume ottimale per la progressione, i tempi di recupero più efficaci, il tasso di miglioramento nel tempo e altri indicatori utili all&apos;ottimizzazione dell&apos;allenamento.
               </p>
             </div>
             <div className="mt-8 flex flex-wrap gap-3">

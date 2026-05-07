@@ -31,6 +31,13 @@ const techs = [
       "Utility-first CSS per sviluppo rapido. shadcn per componenti accessibili e personalizzabili senza dipendenze di libreria.",
   },
   {
+    icon: <Wrench size={24} weight="fill" />,
+    label: "PWA",
+    title: "vite-plugin-pwa + Workbox",
+    description:
+      "Generazione automatica del Service Worker, precaching dei bundle, strategie di runtime caching configurabili.",
+  },
+  {
     icon: <Database size={24} weight="fill" />,
     label: "Backend",
     title: "Supabase",
@@ -51,13 +58,6 @@ const techs = [
     title: "Netlify",
     description:
       "Deploy continuo da Git, CDN globale, HTTPS automatico, branch previews. PaaS che elimina l'operations.",
-  },
-  {
-    icon: <Wrench size={24} weight="fill" />,
-    label: "PWA",
-    title: "vite-plugin-pwa + Workbox",
-    description:
-      "Generazione automatica del Service Worker, precaching dei bundle, strategie di runtime caching configurabili.",
   },
 ];
 

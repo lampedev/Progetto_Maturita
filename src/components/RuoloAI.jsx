@@ -1,149 +1,167 @@
-import { useEffect, useRef } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
-import { Robot, User } from '@phosphor-icons/react';
+import { Robot, Lightbulb, Prohibit } from '@phosphor-icons/react';
 
 gsap.registerPlugin(ScrollTrigger);
 
-const conversations = [
+const blocks = [
   {
-    title: 'Come l\'AI ha aiutato',
-    subtitle: 'Un assistente, non un sostituto',
-    messages: [
-      {
-        type: 'user',
-        text: 'Le animazioni GSAP non funzionano: gli elementi restano con opacity 0 anche dopo il mount.',
-      },
-      {
-        type: 'ai',
-        text: 'Il problema è che in React StrictMode i componenti si montano/smontano due volte. Con gsap.from() gli elementi partono da opacity 0 e se l\'animazione non triggera correttamente al secondo mount, restano invisibili. Usa gsap.fromTo() per forzare lo stato finale.',
-      },
-      {
-        type: 'action',
-        text: 'Ho sostituito tutte le animazioni con fromTo(), specificando esplicitamente lo stato finale.',
-      },
-      {
-        type: 'user',
-        text: 'Come funziona Row Level Security in PostgreSQL?',
-      },
-      {
-        type: 'ai',
-        text: 'RLS è una feature di PostgreSQL che filtra automaticamente le righe in base all\'utente autenticato. Ogni policy SQL valuta se l\'utente ha accesso a una riga specifica. Con Supabase, auth.uid() restituisce l\'ID dell\'utente loggato.',
-      },
-      {
-        type: 'action',
-        text: 'Ho implementato le policy RLS su tutte le tabelle, con CHECK constraints e trigger per l\'audit.',
-      },
+    num: 1,
+    icon: Robot,
+    title: "Come l'AI ha aiutato",
+    color: '#38bdf8',
+    items: [
+      { label: 'GSAP animations', text: "Gli elementi restavano con opacity 0. L'AI ha identificato il problema con React StrictMode e suggerito gsap.fromTo()." },
+      { label: 'Row Level Security', text: "Non sapevo come funzionasse RLS. L'AI ha spiegato auth.uid() e come filtrare le righe per utente." },
+      { label: 'OAuth 2.0 + PKCE', text: "Flusso auth confuso. L'AI ha spiegato code_verifier e code_challenge." },
+      { label: 'TypeScript generics', text: "Tipi complessi per React Query. L'AI ha suggerito la struttura corretta per i generic types." },
+      { label: 'Tailwind responsive', text: "Layout mobile-first con breakpoint. L'AI ha aiutato a combinare grid e flex." },
     ],
   },
   {
+    num: 2,
+    icon: Lightbulb,
     title: 'Cosa ho imparato',
-    subtitle: 'Lezioni dal dialogo con l\'AI',
-    messages: [
-      {
-        type: 'user',
-        text: 'Non funziona! Errore strano in console.',
-      },
-      {
-        type: 'ai',
-        text: 'Ho bisogno di più dettagli: quale file, quale riga, qual è l\'errore esatto?',
-      },
-      {
-        type: 'action',
-        text: 'Ho imparato a formulare domande precise: contesto, codice, errore, cosa ho già provato.',
-      },
-      {
-        type: 'user',
-        text: 'L\'AI suggerisce di usare Zustand per lo stato. È la scelta giusta?',
-      },
-      {
-        type: 'ai',
-        text: 'Zustand è leggero e semplice, ma React Query gestisce già lo stato server. Per lo stato client, valuta se serve davvero un altro store.',
-      },
-      {
-        type: 'action',
-        text: 'Ho imparato a non fidarmi ciecamente: ogni suggerimento va valutato nel contesto del progetto.',
-      },
+    color: '#4ade80',
+    items: [
+      { label: 'Domande precise', text: 'Non basta "non funziona". Specificare file, riga, errore, cosa ho già provato.' },
+      { label: 'Verificare tutto', text: "L'AI può sbagliare. Ho imparato a testare ogni suggerimento prima di applicarlo." },
+      { label: 'Documentare', text: 'Scrivere commenti e README durante lo sviluppo aiuta a ricordare le decisioni.' },
+      { label: 'Dividere i problemi', text: 'Invece di "come faccio l\'app", dividere in sotto-problemi: auth, db, UI.' },
     ],
   },
   {
-    title: 'Cosa l\'AI non può fare',
-    subtitle: 'Il confine dell\'assistente',
-    messages: [
-      {
-        type: 'user',
-        text: 'Devo scegliere tra Firebase e Supabase. Quale è meglio?',
-      },
-      {
-        type: 'ai',
-        text: 'Entrambe hanno pro e contro. Firebase ha un ecosistema più maturo, Supabase offre PostgreSQL open-source con RLS. Dipende dai tuoi requisiti specifici.',
-      },
-      {
-        type: 'action',
-        text: 'L\'AI non può decidere per me: solo io conosco il contesto (scuola, palestra, maturità). Ho scelto Supabase per RLS e PostgreSQL.',
-      },
-      {
-        type: 'user',
-        text: 'L\'app va usata in palestra con le mani sudate. Come devo progettare l\'UI?',
-      },
-      {
-        type: 'ai',
-        text: 'Touch targets di almeno 48px, contrasti elevati, gesture grandi. Questi sono principi generali di mobile UX.',
-      },
-      {
-        type: 'action',
-        text: 'L\'AI non può provare l\'app in palestra: solo testandola ho capito che servivano pulsanti più grandi e feedback aptici.',
-      },
+    num: 3,
+    icon: Prohibit,
+    title: "Cosa l'AI non può fare",
+    color: '#fb923c',
+    items: [
+      { label: 'Decisioni', text: "Scegliere Supabase vs Firebase richiede contesto: scuola, tempo, obiettivi." },
+      { label: 'Contesto reale', text: "L'app in palestra con mani sudate. Solo testandola ho capito i limiti." },
+      { label: 'Creatività', text: 'Design bento grid, glassmorphism, colori: decisioni creative non sostituibili.' },
+      { label: 'Responsabilità', text: "Il codice finale è mio. L'AI è uno strumento, la responsabilità è dello sviluppatore." },
     ],
   },
 ];
 
-function ChatBubble({ message, index }) {
-  const isUser = message.type === 'user';
-  const isAction = message.type === 'action';
+function AnimatedCounter({ target, color, trigger }) {
+  const counterRef = useRef(null);
+  const [hasAnimated, setHasAnimated] = useState(false);
 
-  if (isAction) {
-    return (
-      <div className="flex items-center gap-3 my-4 py-3 px-5 bg-accent/5 rounded-2xl border-l-4 border-accent">
-        <div className="w-8 h-8 rounded-full bg-accent/10 flex items-center justify-center shrink-0">
-          <User size={16} weight="fill" className="text-accent-dark" />
-        </div>
-        <p className="text-sm text-zinc-700 leading-relaxed">{message.text}</p>
-      </div>
+  useEffect(() => {
+    if (!counterRef.current || hasAnimated) return;
+
+    const anim = gsap.to(
+      { val: 0 },
+      {
+        val: target,
+        duration: 1.5,
+        ease: 'power2.out',
+        scrollTrigger: {
+          trigger: trigger,
+          start: 'top 85%',
+          once: true,
+        },
+        onUpdate: function () {
+          if (counterRef.current) {
+            counterRef.current.textContent = String(Math.round(this.targets()[0].val)).padStart(2, '0');
+          }
+        },
+        onComplete: () => setHasAnimated(true),
+      }
     );
-  }
+
+    return () => anim.kill();
+  }, [target, trigger, hasAnimated]);
+
+  return (
+    <div className="relative">
+      <span
+        ref={counterRef}
+        className="font-mono text-6xl md:text-7xl font-bold leading-none relative z-10"
+        style={{ color: color, opacity: 0.6, textShadow: `0 0 80px ${color}80, 0 0 120px ${color}40` }}
+      >
+        00
+      </span>
+      <div
+        className="absolute inset-0 blur-3xl opacity-30"
+        style={{ background: color }}
+      />
+    </div>
+  );
+}
+
+function GlowLine({ color, trigger }) {
+  const lineRef = useRef(null);
+
+  useEffect(() => {
+    if (!lineRef.current) return;
+
+    gsap.fromTo(
+      lineRef.current,
+      { scaleX: 0 },
+      {
+        scaleX: 1,
+        duration: 1.2,
+        ease: 'power3.out',
+        scrollTrigger: {
+          trigger: trigger,
+          start: 'top 85%',
+          once: true,
+        },
+      }
+    );
+  }, [trigger]);
 
   return (
     <div
-      className={`flex gap-3 mb-4 ${isUser ? 'flex-row-reverse' : 'flex-row'}`}
-    >
-      <div
-        className={`w-8 h-8 rounded-full flex items-center justify-center shrink-0 ${
-          isUser ? 'bg-zinc-900' : 'bg-accent/10'
-        }`}
-      >
-        {isUser ? (
-          <User size={16} weight="fill" className="text-white" />
-        ) : (
-          <Robot size={16} weight="fill" className="text-accent-dark" />
-        )}
-      </div>
-      <div
-        className={`max-w-[80%] px-5 py-3 text-sm leading-relaxed ${
-          isUser
-            ? 'bg-zinc-900 text-white rounded-[2rem_2rem_0.5rem_2rem]'
-            : 'bg-white border border-zinc-200 text-zinc-700 rounded-[2rem_2rem_2rem_0.5rem] shadow-sm'
-        }`}
-      >
-        {message.text}
-      </div>
-    </div>
+      ref={lineRef}
+      className="h-px origin-left"
+      style={{ background: `linear-gradient(to right, ${color}, transparent)` }}
+    />
+  );
+}
+
+function GlassOrb({ color, size, top, left, delay }) {
+  const orbRef = useRef(null);
+
+  useEffect(() => {
+    if (!orbRef.current) return;
+
+    gsap.to(orbRef.current, {
+      x: 'random(-50, 50)',
+      y: 'random(-50, 50)',
+      scale: 'random(0.8, 1.2)',
+      duration: 'random(8, 12)',
+      ease: 'none',
+      repeat: -1,
+      yoyo: true,
+      delay: delay,
+    });
+  }, [delay]);
+
+  return (
+    <div
+      ref={orbRef}
+      className="absolute rounded-full pointer-events-none"
+      style={{
+        width: size,
+        height: size,
+        top: top,
+        left: left,
+        background: `radial-gradient(circle, ${color}30 0%, ${color}10 40%, transparent 70%)`,
+        filter: 'blur(40px)',
+      }}
+    />
   );
 }
 
 export default function RuoloAI() {
   const sectionRef = useRef(null);
+  const headingRef = useRef(null);
   const blocksRef = useRef([]);
+  const itemsRef = useRef([]);
 
   useEffect(() => {
     const ctx = gsap.context(() => {
@@ -161,27 +179,30 @@ export default function RuoloAI() {
 
       blocksRef.current.forEach((block, i) => {
         gsap.from(block, {
-          y: 50,
           opacity: 0,
-          duration: 0.9,
-          delay: i * 0.1,
+          y: 30,
+          duration: 0.8,
           ease: 'power3.out',
           scrollTrigger: {
             trigger: block,
             start: 'top 85%',
+            once: true,
           },
         });
+      });
 
-        const bubbles = block.querySelectorAll('.chat-bubble');
-        gsap.from(bubbles, {
-          y: 20,
+      const allItems = document.querySelectorAll('.ai-item');
+      allItems.forEach((item, i) => {
+        gsap.from(item, {
           opacity: 0,
-          duration: 0.5,
-          stagger: 0.1,
+          x: -20,
+          duration: 0.6,
+          delay: i * 0.05,
           ease: 'power2.out',
           scrollTrigger: {
-            trigger: block,
-            start: 'top 75%',
+            trigger: item,
+            start: 'top 90%',
+            once: true,
           },
         });
       });
@@ -191,44 +212,134 @@ export default function RuoloAI() {
   }, []);
 
   return (
-    <section id="ai" ref={sectionRef} className="py-32 md:py-40 bg-zinc-50">
-      <div className="max-w-wrapper mx-auto px-6">
-        <div className="ai-heading mb-16 md:mb-24 md:pr-[20vw]">
-          <p className="text-sm font-medium text-accent-dark tracking-wide uppercase mb-4">
+    <section id="ai" ref={sectionRef} className="py-24 md:py-32 bg-black relative overflow-hidden">
+      {/* Animated glowing orbs */}
+      <GlassOrb color="#38bdf8" size="400px" top="-100px" left="-100px" delay={0} />
+      <GlassOrb color="#4ade80" size="300px" top="40%" right="-50px" delay={2} />
+      <GlassOrb color="#fb923c" size="350px" bottom="-100px" left="30%" delay={4} />
+      <GlassOrb color="#a78bfa" size="250px" top="20%" right="20%" delay={6} />
+
+      {/* Noise texture overlay */}
+      <div
+        className="absolute inset-0 opacity-[0.03] pointer-events-none"
+        style={{
+          backgroundImage: `url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E")`,
+          backgroundRepeat: 'repeat',
+        }}
+      />
+
+      {/* Main glass container */}
+      <div className="relative z-10 max-w-wrapper mx-auto px-6">
+        <div className="ai-heading mb-16 md:mb-20">
+          <p className="text-sm font-medium tracking-wide uppercase mb-4" style={{ color: '#38bdf8' }}>
             Intelligenza Artificiale
           </p>
-          <h2 className="text-3xl md:text-5xl tracking-tighter leading-tight text-zinc-900 mb-6">
+          <h2 className="text-3xl md:text-5xl tracking-tighter leading-tight text-white mb-6">
             Il ruolo dell'AI nello sviluppo
           </h2>
-          <p className="text-base text-zinc-500 leading-relaxed max-w-[55ch]">
+          <p className="text-base text-zinc-400 leading-relaxed max-w-[55ch]">
             L'AI non ha scritto il codice al posto mio, ma è stata un
             acceleratore di apprendimento. Ogni risposta è stata un'occasione
             per capire il "perché" dietro il "come".
           </p>
         </div>
 
-        <div className="flex flex-col gap-16 md:gap-24">
-          {conversations.map((conv, blockIndex) => (
-            <div
-              key={conv.title}
-              ref={(el) => (blocksRef.current[blockIndex] = el)}
-            >
-              <div className="mb-8">
-                <h3 className="text-xl md:text-2xl font-semibold text-zinc-900 tracking-tight mb-2">
-                  {conv.title}
-                </h3>
-                <p className="text-sm text-zinc-500">{conv.subtitle}</p>
-              </div>
+        <div className="flex flex-col gap-16 md:gap-20">
+          {blocks.map((block, blockIndex) => {
+            const Icon = block.icon;
+            return (
+              <div
+                key={block.title}
+                ref={(el) => (blocksRef.current[blockIndex] = el)}
+                className="relative"
+              >
+                {/* Glass card for each block */}
+                <div
+                  className="rounded-3xl p-6 md:p-8 border transition-all duration-500"
+                  style={{
+                    background: 'rgba(255, 255, 255, 0.03)',
+                    borderColor: 'rgba(255, 255, 255, 0.08)',
+                    backdropFilter: 'blur(20px)',
+                    WebkitBackdropFilter: 'blur(20px)',
+                    boxShadow: `0 0 60px -20px ${block.color}20, inset 0 1px 0 rgba(255, 255, 255, 0.05)`,
+                  }}
+                >
+                  <div className="flex items-start gap-6 md:gap-10">
+                    <div className="hidden md:flex flex-col items-center shrink-0 w-20">
+                      <AnimatedCounter
+                        target={block.num}
+                        color={block.color}
+                        trigger={blocksRef.current[blockIndex]}
+                      />
+                      <div
+                        className="mt-3 w-10 h-10 rounded-xl flex items-center justify-center"
+                        style={{
+                          background: `${block.color}15`,
+                          color: block.color,
+                          boxShadow: `0 0 20px ${block.color}20`,
+                        }}
+                      >
+                        <Icon size={20} weight="fill" />
+                      </div>
+                    </div>
 
-              <div className="max-w-2xl">
-                {conv.messages.map((msg, msgIndex) => (
-                  <div key={msgIndex} className="chat-bubble">
-                    <ChatBubble message={msg} index={msgIndex} />
+                    <div className="flex-1 min-w-0">
+                      <div className="flex items-center gap-3 mb-1 md:hidden">
+                        <div className="w-8 h-8 rounded-lg flex items-center justify-center" style={{ background: `${block.color}15`, color: block.color }}>
+                          <Icon size={16} weight="fill" />
+                        </div>
+                        <span className="font-mono text-2xl font-bold" style={{ color: block.color, opacity: 0.4 }}>
+                          {String(block.num).padStart(2, '0')}
+                        </span>
+                      </div>
+
+                      <h3 className="text-xl md:text-2xl font-semibold text-white tracking-tight mb-1">
+                        {block.title}
+                      </h3>
+
+                      <GlowLine color={block.color} trigger={blocksRef.current[blockIndex]} />
+
+                      <div className="mt-6 space-y-0">
+                        {block.items.map((item, itemIndex) => (
+                          <div
+                            key={itemIndex}
+                            className="ai-item group flex items-start gap-4 py-4 border-b border-white/[0.06] last:border-0 transition-all duration-300 hover:pl-2"
+                          >
+                            <span
+                              className="font-mono text-sm font-bold shrink-0 mt-0.5 transition-colors duration-300"
+                              style={{ color: block.color, opacity: 0.5 }}
+                            >
+                              {String(itemIndex + 1).padStart(2, '0')}
+                            </span>
+                            <div className="flex-1 min-w-0">
+                              <span className="text-sm font-semibold text-zinc-200 group-hover:text-white transition-colors duration-300">
+                                {item.label}
+                              </span>
+                              <p className="text-sm text-zinc-500 leading-relaxed mt-1 group-hover:text-zinc-400 transition-colors duration-300">
+                                {item.text}
+                              </p>
+                            </div>
+                            <div
+                              className="w-1.5 h-1.5 rounded-full shrink-0 mt-2 opacity-0 group-hover:opacity-100 transition-opacity duration-300"
+                              style={{ background: block.color, boxShadow: `0 0 10px ${block.color}` }}
+                            />
+                          </div>
+                        ))}
+                      </div>
+                    </div>
                   </div>
-                ))}
+                </div>
+
+                {blockIndex < blocks.length - 1 && (
+                  <div className="mt-16 md:mt-20 flex items-center gap-4">
+                    <div className="flex-1 h-px bg-white/[0.06]" />
+                    <div className="w-2 h-2 rounded-full" style={{ background: blocks[blockIndex + 1].color, opacity: 0.3 }} />
+                    <div className="flex-1 h-px bg-white/[0.06]" />
+                  </div>
+                )}
               </div>
-            </div>
-          ))}
+            );
+          })}
         </div>
       </div>
     </section>

@@ -49,7 +49,7 @@ export default function Hero() {
               <span className="text-accent-dark">Progressive Web App per il fitness</span>
             </h1>
             <p className="text-base md:text-lg text-zinc-500 leading-relaxed max-w-[55ch] mb-10">
-              Un'applicazione web progressiva per il tracciamento degli allenamenti in palestra, sviluppata con architettura cloud, autenticazione OAuth 2.0 e sicurezza a livello di riga.
+              Una PWA per il tracciamento avanzato degli allenamenti in palestra, sviluppata con architettura cloud, autenticazione OAuth 2.0 e sicurezza a livello di riga, progettata ad hoc per le mie esigenze e per atleti orientati alla massima performance, con gestione dati dettagliata e monitoraggio evoluto dei progressi.
             </p>
             <div className="flex flex-wrap items-center gap-4">
               <a

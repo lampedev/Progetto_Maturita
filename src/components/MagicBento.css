@@ -149,16 +149,8 @@
     grid-column: span 2;
   }
 
-  .magic-bento-card:nth-child(3) {
+  .magic-bento-card:nth-child(4) {
     grid-column: span 2;
-  }
-
-  .magic-bento-card:nth-child(5) {
-    grid-column: span 1;
-  }
-
-  .magic-bento-card:nth-child(6) {
-    grid-column: span 1;
   }
 }
 
