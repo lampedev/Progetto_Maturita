@@ -70,3 +70,97 @@
     0 1px 3px rgba(0, 0, 0, 0.06),
     0 4px 12px rgba(14, 165, 233, 0.08);
 }
+
+/* Varianti per i livelli dell'architettura */
+.glow-layer {
+  position: relative;
+  border-radius: 1.5rem;
+  overflow: visible;
+  border: 1px solid transparent;
+  background-clip: padding-box;
+}
+
+.glow-layer::before {
+  content: "";
+  position: absolute;
+  inset: -1px;
+  border-radius: inherit;
+  background: conic-gradient(
+    from 0deg,
+    #7dd3fc,
+    #38bdf8,
+    #0ea5e9,
+    #0284c7,
+    #7dd3fc
+  );
+  animation: glow-rotate 8s linear infinite;
+  opacity: 0.5;
+  filter: blur(1px);
+  z-index: -1;
+  mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+  mask-composite: exclude;
+  -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+  -webkit-mask-composite: xor;
+  padding: 1px;
+}
+
+.glow-layer::after {
+  content: "";
+  position: absolute;
+  inset: -6px;
+  border-radius: calc(1.5rem + 6px);
+  background: radial-gradient(
+    circle at 50% 50%,
+    rgba(14, 165, 233, 0.1),
+    transparent 70%
+  );
+  z-index: -2;
+}
+
+.glow-layer--edge {
+  background: #f4f4f5;
+}
+
+.glow-layer--edge::before {
+  background: conic-gradient(
+    from 0deg,
+    #a5b4fc,
+    #818cf8,
+    #6366f1,
+    #4f46e5,
+    #a5b4fc
+  ) !important;
+  opacity: 0.4;
+}
+
+.glow-layer--edge::after {
+  background: radial-gradient(
+    circle at 50% 50%,
+    rgba(99, 102, 241, 0.1),
+    transparent 70%
+  ) !important;
+}
+
+.glow-layer--backend {
+  background: #27272a;
+}
+
+.glow-layer--backend::before {
+  background: conic-gradient(
+    from 0deg,
+    #60a5fa,
+    #3b82f6,
+    #2563eb,
+    #1d4ed8,
+    #60a5fa
+  ) !important;
+  opacity: 0.4;
+}
+
+.glow-layer--backend::after {
+  background: radial-gradient(
+    circle at 50% 50%,
+    rgba(37, 99, 235, 0.1),
+    transparent 70%
+  ) !important;
+}

@@ -117,7 +117,7 @@ export default function Architettura() {
         <ArrowDivider />
 
         {/* Edge Layer */}
-        <div className="rounded-3xl bg-zinc-100 p-6 md:p-8">
+        <div className="glow-layer glow-layer--edge p-6 md:p-8">
           <div className="text-xs font-semibold uppercase tracking-wider text-zinc-500 mb-4 text-center">
             Livello Edge / CDN
           </div>
@@ -131,7 +131,7 @@ export default function Architettura() {
         <ArrowDivider />
 
         {/* Backend Layer */}
-        <div className="rounded-3xl bg-zinc-800 p-6 md:p-8">
+        <div className="glow-layer glow-layer--backend p-6 md:p-8">
           <div className="text-xs font-semibold uppercase tracking-wider text-zinc-400 mb-4 text-center">
             Livello Backend / BaaS
           </div>
