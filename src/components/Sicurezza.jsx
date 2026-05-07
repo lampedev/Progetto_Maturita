@@ -2,6 +2,7 @@ import { useRef, useLayoutEffect } from "react";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { LockKey, ShieldCheck, ArrowsClockwise } from "@phosphor-icons/react";
+import BorderGlow from "./BorderGlow";
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -89,26 +90,27 @@ export default function Sicurezza() {
 
       <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-16">
         {ciaCards.map((card, i) => (
-          <div
-            key={card.title}
-            ref={(el) => {
-              if (el) cardsRef.current[i] = el;
-            }}
-            className="rounded-[2.5rem] bg-white border border-zinc-100 shadow-[0_20px_40px_-15px_rgba(0,0,0,0.05)] p-8 md:p-10"
-          >
-            <div className="w-12 h-12 rounded-2xl bg-sky-50 text-sky-500 flex items-center justify-center mb-6">
-              <card.icon size={24} weight="duotone" />
+          <BorderGlow key={card.title} className="h-full">
+            <div
+              ref={(el) => {
+                if (el) cardsRef.current[i] = el;
+              }}
+              className="p-8 md:p-10 h-full flex flex-col"
+            >
+              <div className="w-12 h-12 rounded-2xl bg-sky-50 text-sky-500 flex items-center justify-center mb-6">
+                <card.icon size={24} weight="duotone" />
+              </div>
+              <h3 className="text-xl font-semibold text-zinc-900 mb-4">{card.title}</h3>
+              <ul className="space-y-3 flex-1">
+                {card.items.map((item) => (
+                  <li key={item} className="flex items-start gap-3 text-sm text-zinc-500 leading-relaxed">
+                    <span className="mt-1.5 w-1.5 h-1.5 rounded-full bg-sky-400 shrink-0" />
+                    <span>{item}</span>
+                  </li>
+                ))}
+              </ul>
             </div>
-            <h3 className="text-xl font-semibold text-zinc-900 mb-4">{card.title}</h3>
-            <ul className="space-y-3">
-              {card.items.map((item) => (
-                <li key={item} className="flex items-start gap-3 text-sm text-zinc-500 leading-relaxed">
-                  <span className="mt-1.5 w-1.5 h-1.5 rounded-full bg-sky-400 shrink-0" />
-                  <span>{item}</span>
-                </li>
-              ))}
-            </ul>
-          </div>
+          </BorderGlow>
         ))}
       </div>
     </section>

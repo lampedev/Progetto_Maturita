@@ -9,12 +9,7 @@ const highlightWords = (text, words) => {
   const parts = text.split(new RegExp(`(${words.join("|")})`, "gi"));
   return parts.map((part, i) =>
     words.some((w) => w.toLowerCase() === part.toLowerCase()) ? (
-      <span
-        key={i}
-        className="relative inline-block font-semibold text-zinc-900 after:absolute after:bottom-0 after:left-0 after:w-full after:h-[3px] after:bg-[#0ea5e9] after:rounded-full"
-      >
-        {part}
-      </span>
+      <span key={i} className="text-zinc-900 font-semibold underline underline-offset-[3px] decoration-[#bae6fd] decoration-2">{part}</span>
     ) : (
       part
     )
@@ -24,11 +19,11 @@ const highlightWords = (text, words) => {
 const paragraphs = [
   {
     text: 'GymLogPWA nasce dalla frustrazione di dover affidare i propri dati di allenamento a piattaforme commerciali chiuse. Il problema principale non era solo la presenza di abbonamenti o pubblicità, ma soprattutto l\'impossibilità di accedere realmente ai dati generati: molte applicazioni non permettono l\'esportazione completa delle informazioni, non offrono API pubbliche e impediscono qualsiasi elaborazione personalizzata o analisi avanzata locale.',
-    highlights: ['piattaforme commerciali chiuse', 'dati', 'API pubbliche']
+    highlights: ['piattaforme commerciali chiuse', 'API pubbliche']
   },
   {
     text: 'Volevo quindi un tool per tracciare i miei allenamenti senza abbonamenti, senza pubblicità e senza la necessità di cedere informazioni personali a servizi esterni. L\'obiettivo era creare una piattaforma realmente controllabile dall\'utente, con gestione diretta dei dati, sincronizzazione cloud e un\'architettura moderna capace di garantire sicurezza, flessibilità e scalabilità.',
-    highlights: ['senza abbonamenti', 'controllabile dall\'utente', 'architettura moderna']
+    highlights: ['tool', 'senza abbonamenti', 'controllabile dall\'utente', 'architettura moderna']
   },
   {
     text: 'Quello che inizialmente era nato come un semplice script personale si è progressivamente trasformato in un progetto completo di ingegneria software. Attraverso lo sviluppo della PWA ho approfondito concetti come cloud computing, autenticazione OAuth 2.0, sicurezza informatica, state management e gestione real-time dei dati.',

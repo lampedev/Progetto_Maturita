@@ -1,0 +1,53 @@
+.glow-border-wrapper {
+  position: relative;
+  padding: 1px;
+  border-radius: 30px;
+  overflow: visible;
+}
+
+.glow-border-wrapper::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  background: conic-gradient(
+    from 0deg,
+    #7dd3fc,
+    #38bdf8,
+    #0ea5e9,
+    #0284c7,
+    #7dd3fc
+  );
+  animation: glow-rotate 8s linear infinite;
+  opacity: 0.6;
+  filter: blur(1px);
+  z-index: -1;
+}
+
+.glow-border-wrapper::after {
+  content: "";
+  position: absolute;
+  inset: -6px;
+  border-radius: calc(30px + 6px);
+  background: radial-gradient(
+    circle at 50% 50%,
+    rgba(14, 165, 233, 0.12),
+    transparent 70%
+  );
+  z-index: -2;
+}
+
+@keyframes glow-rotate {
+  0% { filter: blur(1px) hue-rotate(0deg); }
+  100% { filter: blur(1px) hue-rotate(30deg); }
+}
+
+.glow-border-wrapper > .glow-border-content {
+  background: #ffffff;
+  border-radius: 28px;
+  position: relative;
+  z-index: 1;
+  box-shadow:
+    0 1px 3px rgba(0, 0, 0, 0.06),
+    0 4px 12px rgba(14, 165, 233, 0.08);
+}
